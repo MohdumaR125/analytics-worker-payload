@@ -3,12 +3,9 @@ import { readFileSync } from "fs";
 //read data of attempt payload
 function readDataFromFile() {
   // Use fs.readFile() method to read the file
-  const tempdata = readFileSync("attempt_payload1.json", "utf8", (err) => {
+  const data = JSON.parse(readFileSync("attempt_payload1.json", "utf8", (err) => {
     if (err) throw err;
-  });
-  const data = JSON.parse(tempdata);
- 
-
+  }));
   return data;
 }
 
@@ -18,9 +15,9 @@ const analyticsDataFunc = () => {
   const analytics_data_arr = [];
   const original_data = readDataFromFile();
 
-  const clicks = original_data.quizAnalytics.clicks.sort((a, b) => a.ms - b.ms);
-  const movements = original_data.quizAnalytics.movements.sort((a, b) => a.ms - b.ms);
-  const keyStrokes = original_data.quizAnalytics.keyStrokes.sort((a, b) => a.ms - b.ms);
+  const clicks = original_data.quizAnalytics.clicks
+  const movements = original_data.quizAnalytics.movements
+  const keyStrokes = original_data.quizAnalytics.keyStrokes;
   let movement_idx = 0;
   let keyStroke_idx = 0;
 
@@ -116,6 +113,7 @@ const analyticsDataFunc = () => {
     analytics_data_arr.push(row_data);
   
   }
-  console.log(analytics_data_arr[0])
+  console.log(analytics_data_arr[1])
+ 
 };
 analyticsDataFunc();
