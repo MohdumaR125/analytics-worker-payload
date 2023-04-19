@@ -13,7 +13,7 @@ function readDataFromFile(){
     console.log("in read file")
 
     // Use fs.readFile() method to read the file
-   const data= readFileSync('attempt_payload.json', 'utf8', (err)=>{
+   const data= readFileSync('attempt_payload1.json', 'utf8', (err)=>{
     if(err) throw err;
    });
   return data;
