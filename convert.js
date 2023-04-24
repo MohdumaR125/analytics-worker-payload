@@ -1,25 +1,15 @@
 import { readFileSync } from "fs";
 
-//read data of attempt payload
-function readDataFromFile() {
-  // Use fs.readFile() method to read the file
-  const data = JSON.parse(readFileSync("attempt_payload1.json", "utf8", (err) => {
-    if (err) throw err;
-  }));
-  return data;
-}
-
-
 //function for converting attempt data to analytics data
 const analyticsDataFunc = () => {
   const analytics_data_arr = [];
   const original_data = readDataFromFile();
 
-  const clicks = original_data.quizAnalytics.clicks
-  const movements = original_data.quizAnalytics.movements
+  const clicks = original_data.quizAnalytics.clicks;
+  const movements = original_data.quizAnalytics.movements;
   const keyStrokes = original_data.quizAnalytics.keyStrokes;
-  let movement_idx = 0;
-  let keyStroke_idx = 0;
+  let movement_idx = 0; //to keep track of index of movement array
+  let keyStroke_idx = 0; //to keep track of keystroke array index
 
   //loop for creating rows for table data
   for (let i = 0; i < clicks.length; i++) {
@@ -43,7 +33,7 @@ const analyticsDataFunc = () => {
       key_press_timestamp: [],
     };
 
-    //checking if click.name contains event name and value 
+    //checking if click.name contains event name and value
     if (clicks[i].name.includes("-")) {
       const val = clicks[i].name.split("-");
       row_data.event_name = val[0];
@@ -57,7 +47,8 @@ const analyticsDataFunc = () => {
     row_data.user_id = original_data.userId;
     row_data.quiz_id = original_data.userQuizAttemptData.id;
     row_data.ques_id = clicks[i].questionId;
-    row_data.timestamp = original_data.userQuizAttemptData.startTime + clicks[i].ms;
+    row_data.timestamp =
+      original_data.userQuizAttemptData.startTime + clicks[i].ms;
     row_data.element_id = clicks[i].name;
 
     //splitting coordinates to get x and y value
@@ -65,7 +56,6 @@ const analyticsDataFunc = () => {
     row_data.x_coord = coord[0];
     row_data.y_coord = coord[1];
 
-    
     if (i !== clicks.length - 1) {
       for (let j = movement_idx; j < movements.length; j++) {
         if (movements[j].ms > clicks[i + 1].ms) {
@@ -111,9 +101,19 @@ const analyticsDataFunc = () => {
     }
 
     analytics_data_arr.push(row_data);
-  
   }
-  console.log(analytics_data_arr[1])
- 
+  return analytics_data_arr;
 };
-analyticsDataFunc();
+
+//read data of attempt payload
+function readDataFromFile() {
+  // Use fs.readFile() method to read the file
+  const data = JSON.parse(
+    readFileSync("attempt_payload1.json", "utf8", (err) => {
+      if (err) throw err;
+    })
+  );
+  return data;
+}
+
+export { analyticsDataFunc };

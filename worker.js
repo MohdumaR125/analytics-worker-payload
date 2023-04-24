@@ -1,33 +1,33 @@
-import { readFileSync } from 'fs';
-import  axios  from 'axios';
+import axios from "axios";
+import { analyticsDataFunc } from "./convert.js";
 
+//function for fetching data from conert.js and posting it on server
+const sendWorkerData = () => {
+  const analytics_data = fetchAnalyticsData();
+  postDataFunc(analytics_data);
+};
 
-
-const sendWorkerData= ()=>{
-const data = readDataFromFile();
-postData(data)
+function fetchAnalyticsData() {
+  const analytics_data = analyticsDataFunc();
+  return analytics_data;
 }
 
-
-function readDataFromFile(){
-    console.log("in read file")
-
-    // Use fs.readFile() method to read the file
-   const data= readFileSync('attempt_payload1.json', 'utf8', (err)=>{
-    if(err) throw err;
-   });
-  return data;
-}
-
-const postData = (data)=>{
-    console.log("in post data function")
-    // POST request
-      axios.post("http://localhost:3000/workerData",JSON.parse(data))
-.then(response => {
-  console.log(response.data,);
-})
-.catch(error => {
-  console.error(error);
-});
-}
-export {sendWorkerData}
+const postDataFunc = (data) => {
+  console.log("in post data function");
+  // POST request
+  const stringify_data = JSON.stringify(data);
+  // console.log(stringify_data,"post data data")
+  axios
+    .post("http://localhost:3000/workerdata", stringify_data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+export { sendWorkerData };

@@ -1,29 +1,25 @@
-import express from 'express';
-import cors from 'cors';
-import { sendWorkerData } from './worker.js';
-import bodyParser from 'body-parser';
+import express from "express";
+import cors from "cors";
+import { sendWorkerData } from "./worker.js";
+import bodyParser from "body-parser";
 const app = express();
-const port = 3000
+const port = 3000;
 
-app.use(bodyParser.json());
 app.use(cors());
-let batch_data=[]
+app.use(bodyParser.json({ limit: "1mb" }));
+let batch_data = [];
 
+app.post("/workerdata", (req, res) => {
+  console.log("in post method");
+  // console.log(req)
+  let worker_data = req.body;
+  console.log(worker_data, "worker data");
+  batch_data.push(worker_data);
+  res.send("recieved data");
+});
 
-
-
-//write data to the local json file
-app.post('/workerdata', (req, res) => {
-    console.log("in post")
-    let worker_data = (req.body)
-    batch_data.push(worker_data)
-    console.log(worker_data, 'json');
-    res.send("recieved data");
-
-})
-
-//Start your server on a specified port
+//Start server on a specified port
 app.listen(port, () => {
-    console.log(`Server is runing on port ${port}`)
-})
-sendWorkerData()
+  console.log(`Server is runing on port ${port}`);
+});
+sendWorkerData();
