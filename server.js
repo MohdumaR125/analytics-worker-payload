@@ -11,9 +11,8 @@ let batch_data = [];
 
 app.post("/workerdata", (req, res) => {
   console.log("in post method");
-  // console.log(req)
   let worker_data = req.body;
-  console.log(worker_data, "worker data");
+//   console.log(worker_data, "worker data");
   batch_data.push(worker_data);
   res.send("recieved data");
 });

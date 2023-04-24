@@ -76,9 +76,9 @@ const analyticsDataFunc = () => {
           keyStroke_idx = j;
           break;
         } else {
-          row_data.key_press_char.push(keyStrokes.key);
+          row_data.key_press_char.push(keyStrokes[j].key);
           row_data.key_press_timestamp.push(
-            original_data.userQuizAttemptData.startTime + keyStrokes.ms
+            original_data.userQuizAttemptData.startTime + keyStrokes[j].ms
           );
         }
       }
@@ -90,18 +90,19 @@ const analyticsDataFunc = () => {
         const mouse_coord = movements[j].coordinates.split("-");
         row_data.mouse_movement_x_coord.push(mouse_coord[0]);
         row_data.mouse_movement_y_coord.push(mouse_coord[1]);
-        row_data.mouse_movement_element_id.push(movements.name);
+        row_data.mouse_movement_element_id.push(movements[j].name);
       }
       for (let j = keyStroke_idx; j < keyStrokes.length; j++) {
-        row_data.key_press_char.push(keyStrokes.key);
+        row_data.key_press_char.push(keyStrokes[j].key);
         row_data.key_press_timestamp.push(
-          original_data.userQuizAttemptData.startTime + keyStrokes.ms
+          original_data.userQuizAttemptData.startTime + keyStrokes[j].ms
         );
       }
     }
 
     analytics_data_arr.push(row_data);
   }
+  console.log(analytics_data_arr[analytics_data_arr.length-1])
   return analytics_data_arr;
 };
 
@@ -115,5 +116,5 @@ function readDataFromFile() {
   );
   return data;
 }
-
+analyticsDataFunc()
 export { analyticsDataFunc };
