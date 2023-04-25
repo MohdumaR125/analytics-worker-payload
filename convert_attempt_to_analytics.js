@@ -2,17 +2,19 @@ import { readFileSync } from "fs";
 
 //function for converting attempt data to analytics data
 const analyticsDataFunc = () => {
+
   const analytics_data_arr = [];
   const original_data = readDataFromFile();
-
   const clicks = original_data.quizAnalytics.clicks;
   const movements = original_data.quizAnalytics.movements;
   const keyStrokes = original_data.quizAnalytics.keyStrokes;
-  let movement_idx = 0; //to keep track of index of movement array
+  let movement_idx = 0; //to keep track of index in movement array
   let keyStroke_idx = 0; //to keep track of keystroke array index
 
   //loop for creating rows for table data
   for (let i = 0; i < clicks.length; i++) {
+
+    //object for row entries
     let row_data = {
       event_name: "",
       event_value: "",
@@ -56,7 +58,9 @@ const analyticsDataFunc = () => {
     row_data.x_coord = coord[0];
     row_data.y_coord = coord[1];
 
+    // checking for last index as we save array from current click to next click
     if (i !== clicks.length - 1) {
+      //pushing mouse movement into current click row
       for (let j = movement_idx; j < movements.length; j++) {
         if (movements[j].ms > clicks[i + 1].ms) {
           movement_idx = j;
@@ -82,7 +86,9 @@ const analyticsDataFunc = () => {
           );
         }
       }
-    } else {
+    } 
+    // for last index in clicks array
+    else {
       for (let j = movement_idx; j < movements.length; j++) {
         row_data.mouse_movement_timestamp.push(
           original_data.userQuizAttemptData.startTime + movements[j].ms

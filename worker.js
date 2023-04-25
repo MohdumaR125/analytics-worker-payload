@@ -1,7 +1,7 @@
 import axios from "axios";
-import { analyticsDataFunc } from "./convert.js";
+import { analyticsDataFunc } from "./convert_attempt_to_analytics.js";
 
-//function for fetching data from conert.js and posting it on server
+//function for fetching data from convert.js and posting it on server
 const sendWorkerData = () => {
   const analytics_data = fetchAnalyticsData();
   postDataFunc(analytics_data);
