@@ -15,10 +15,9 @@ function fetchAnalyticsData() {
 const postDataFunc = (data) => {
   console.log("in post data function");
   // POST request
-  const stringify_data = JSON.stringify(data);
-  // console.log(stringify_data,"post data data")
+  const stringified_data = JSON.stringify(data);
   axios
-    .post("http://localhost:3000/workerdata", stringify_data, {
+    .post("http://localhost:3000/workerdata", stringified_data, {
       headers: {
         "Content-Type": "application/json",
       },

@@ -8,8 +8,10 @@ const analyticsDataFunc = () => {
   const clicks = original_data.quizAnalytics.clicks;
   const movements = original_data.quizAnalytics.movements;
   const keyStrokes = original_data.quizAnalytics.keyStrokes;
+  
   let movement_idx = 0; //to keep track of index in movement array
   let keyStroke_idx = 0; //to keep track of keystroke array index
+
 
   //loop for creating rows for table data
   for (let i = 0; i < clicks.length; i++) {
@@ -45,7 +47,7 @@ const analyticsDataFunc = () => {
       row_data.event_value = "";
     }
 
-    row_data.date = original_data.userQuizAttemptData.startTime;
+    row_data.date = unixTimestampToDate(original_data.userQuizAttemptData.startTime);
     row_data.user_id = original_data.userId;
     row_data.quiz_id = original_data.userQuizAttemptData.id;
     row_data.ques_id = clicks[i].questionId;
@@ -108,7 +110,7 @@ const analyticsDataFunc = () => {
 
     analytics_data_arr.push(row_data);
   }
-  console.log(analytics_data_arr[analytics_data_arr.length-1])
+  // console.log(analytics_data_arr[analytics_data_arr.length-1])
   return analytics_data_arr;
 };
 
@@ -123,4 +125,11 @@ function readDataFromFile() {
   return data;
 }
 analyticsDataFunc()
+
+
+function unixTimestampToDate(unixTimestamp) {
+  const dateObj = new Date(unixTimestamp);
+ return `'${dateObj.getFullYear()}-${dateObj.getMonth()}-${dateObj.getDate()}'`
+}
+
 export { analyticsDataFunc };
