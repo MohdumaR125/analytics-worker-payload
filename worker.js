@@ -3,8 +3,10 @@ import { analyticsDataFunc } from "./convert_attempt_to_analytics.js";
 
 //function for fetching data from convert.js and posting it on server
 const sendWorkerData = () => {
+  // console.time("worker time");
   const analytics_data = fetchAnalyticsData();
   postDataFunc(analytics_data);
+  // console.timeEnd("worker time")
 };
 
 function fetchAnalyticsData() {
@@ -13,7 +15,7 @@ function fetchAnalyticsData() {
 }
 
 const postDataFunc = (data) => {
-  console.log("in post data function");
+  // console.log("in post data function");
   // POST request
   const stringified_data = JSON.stringify(data);
   axios
@@ -23,7 +25,7 @@ const postDataFunc = (data) => {
       },
     })
     .then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
     })
     .catch((error) => {
       console.error(error);
